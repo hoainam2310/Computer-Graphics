@@ -1,5 +1,4 @@
 # Computer-Graphics
+CS105.M11.KHCL
 
-#Nguyễn Hoài Nam
-#Lê Huy Đạt
-#Phan Minh Nhật
+Thành viên: Nguyễn Hoài Nam, Lê Huy Đạt, Phan Minh Nhật
