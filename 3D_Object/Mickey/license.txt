@@ -1,0 +1,11 @@
+Model Information:
+* title:	Tuxedo Mickey model
+* source:	https://sketchfab.com/3d-models/tuxedo-mickey-model-fd1efcca895240279337eed010347001
+* author:	jadiel.ozuno (https://sketchfab.com/jadiel.ozuna)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Tuxedo Mickey model" (https://sketchfab.com/3d-models/tuxedo-mickey-model-fd1efcca895240279337eed010347001) by jadiel.ozuno (https://sketchfab.com/jadiel.ozuna) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

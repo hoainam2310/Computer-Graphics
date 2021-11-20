@@ -1,0 +1,11 @@
+Model Information:
+* title:	UH-60- Black Hawk
+* source:	https://sketchfab.com/3d-models/uh-60-black-hawk-e4af0a87b57f4f2e96f712f0c48e02e9
+* author:	Jit Debnath2442 (https://sketchfab.com/jitdebnath2442)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "UH-60- Black Hawk" (https://sketchfab.com/3d-models/uh-60-black-hawk-e4af0a87b57f4f2e96f712f0c48e02e9) by Jit Debnath2442 (https://sketchfab.com/jitdebnath2442) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
