@@ -1,0 +1,11 @@
+Model Information:
+* title:	Audi RS E-tron GT
+* source:	https://sketchfab.com/3d-models/audi-rs-e-tron-gt-c2a1642f2a4a4f68b3ca52b5826d14e3
+* author:	DJS (https://sketchfab.com/s.jailen.jones)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Audi RS E-tron GT" (https://sketchfab.com/3d-models/audi-rs-e-tron-gt-c2a1642f2a4a4f68b3ca52b5826d14e3) by DJS (https://sketchfab.com/s.jailen.jones) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

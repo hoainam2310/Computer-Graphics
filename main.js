@@ -3,17 +3,35 @@ function init() {
     var scene = new THREE.Scene()
 
     //scene.fog = new THREE.FogExp2(0xffffff, 0.1);
-    var material = getMaterial('Phong', 'rgb(255, 255, 255)'); // change material type and color
-    var geometry = getGeometry('Box'); // change shape of geometry
-    var object = get3D_Object('Teapot');
+    var material = getMaterial('Line', 'rgb(100, 100, 100)'); // change material type and color
+    var geometry = getGeometry('Sphere'); // change shape of geometry
+    // material.map = loadTexture('Black Texture');//add texture
+    //var object = get3D_Object('Robot'); //add 3D Object
     var mesh = new THREE.Mesh(
         geometry,
         material
     );
     var point_geo = new THREE.Points(geometry, material);
+
+    //Load reflection cube
+    var reflectionCube = new THREE.CubeTextureLoader()
+        .setPath('Cubemap/')
+        .load([
+            'skybox_right.png',
+            'skybox_left.png',
+            'skybox_top.png',
+            'skybox_bottom.png',
+            'skybox_front.png',
+            'skybox_back.png'
+        ]);
+
+    reflectionCube.format = THREE.RGBFormat;
+
+    scene.background = reflectionCube;
+
     // add box
-    // scene.add(mesh); // change to point_geo to draw geometry with point
-    // mesh.position.y += 0.8;
+    scene.add(mesh); // change to point_geo to draw geometry with point
+    mesh.position.y += 0.5;
 
     //add plane
     var plane = getPlane(6);
@@ -118,45 +136,70 @@ function getBoxTranslation(w, h, d) { //texture
 
 var loader = new THREE.GLTFLoader();
 
-function GetGeometryFrom3DModel(path, scale_x, scale_y, scale_z) {
-    loader.load(
-        path,
-        function(gltf) {
-            gltf.scene.traverse(function(child) {
-                if (child.isMesh) {
-                    child.scale.set(
-                        child.scale.x * scale_x,
-                        child.scale.y * scale_y,
-                        child.scale.z * scale_z
-                    );
-
-                    geometry = child.geometry
-                        .scale(
-                            child.scale.x * scale_x,
-                            child.scale.y * scale_y,
-                            child.scale.z * scale_z
-                        )
-                        .clone();
-
-                    return 0;
-                }
-            });
-        },
-        undefined,
-        function(error) {
-            console.error(error);
-        }
-    );
-}
-
+//Load 3D Object
 function get3D_Object(name) {
     switch (name) {
         case "Teapot":
             var path = "3D_Object/Teapot/scene.gltf";
             loader.load(path,
                 function(gltf) {
+                    gltf.scene.scale.set(0.5, 0.5, 0.5) // scale here
                     scene.add(gltf.scene);
-                })
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
+        case "Helicopter":
+            var path = "3D_Object/Helicopter/scene.gltf";
+            loader.load(path,
+                function(gltf) {
+                    gltf.scene.scale.set(0.2, 0.2, 0.2) // scale here
+                    scene.add(gltf.scene);
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
+        case "Car":
+            var path = "3D_Object/Car/scene.gltf";
+            loader.load(path,
+                function(gltf) {
+                    gltf.scene.traverse(function(child) {
+                        if (child.isMesh) {
+                            child.geometry.center(); // center here
+                        }
+                    });
+                    gltf.scene.scale.set(0.005, 0.005, 0.005) // scale here
+                    scene.add(gltf.scene);
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
+        case "Mickey":
+            var path = "3D_Object/Mickey/scene.gltf";
+            loader.load(path,
+                function(gltf) {
+                    gltf.scene.scale.set(0.3, 0.3, 0.3) // scale here
+                    scene.add(gltf.scene);
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
+        case "Motorcycle":
+            var path = "3D_Object/Motorcycle/scene.gltf";
+            loader.load(path,
+                function(gltf) {
+                    gltf.scene.scale.set(0.5, 0.5, 0.5) // scale here
+                    scene.add(gltf.scene);
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
+        case "Robot":
+            var path = "3D_Object/Robot/scene.gltf";
+            loader.load(path,
+                function(gltf) {
+                    gltf.scene.scale.set(0.5, 0.5, 0.5) // scale here
+                    scene.add(gltf.scene);
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
+        case "House":
+            var path = "3D_Object/House/scene.gltf";
+            loader.load(path,
+                function(gltf) {
+                    gltf.scene.scale.set(0.2, 0.2, 0.2) // scale here
+                    scene.add(gltf.scene);
+                }, (xhr) => xhr, (err) => console.error(e));
+            break;
     }
 }
 
@@ -223,6 +266,30 @@ function getMaterial(type, color) {
     }
     return Material;
 }
+
+// Load texture for geometry
+function loadTexture(name) {
+    var texture;
+    switch (name) {
+        case 'Concrete':
+            texture = new THREE.TextureLoader().load("Texture/concrete.jpg")
+            break;
+        case 'Checkerboard':
+            texture = new THREE.TextureLoader().load("Texture/checkerboard.jpg")
+            break;
+        case 'Black Texture':
+            texture = new THREE.TextureLoader().load("Texture/texture_black.jpg")
+            break;
+        case 'Blue Texture':
+            texture = new THREE.TextureLoader().load("Texture/texture_blue.jpg")
+            break;
+        case 'Leaf':
+            texture = new THREE.TextureLoader().load("Texture/texture_red.jpg")
+            break;
+    }
+    return texture;
+}
+
 
 function getSphere(size) {
     var geometry = new THREE.SphereGeometry(size, 24, 24);
