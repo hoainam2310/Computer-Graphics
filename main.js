@@ -1,19 +1,19 @@
 function init() {
     var gui = new dat.GUI();
-    var scene = new THREE.Scene()
+    var scene = new THREE.Scene();
+    //var clock = new THREE.Clock();
 
     //scene.fog = new THREE.FogExp2(0xffffff, 0.1);
-    var material = getMaterial('Line', 'rgb(100, 100, 100)'); // change material type and color
-    var geometry = getGeometry('Torus'); // change shape of geometry
+    var material = getMaterial('Phong', 'rgb(255, 100, 100)'); // change material type and color
+    var geometry = getGeometry('Cylinder'); // change shape of geometry
     // material.map = loadTexture('Black Texture');//add texture
     //var object = get3D_Object('Robot'); //add 3D Object
     var mesh = new THREE.Mesh(
         geometry,
         material
     );
+
     
-    //cast shadows for objects
-    mesh.castShadow = true;
 
     var point_geo = new THREE.Points(geometry, material);
 
@@ -37,17 +37,22 @@ function init() {
     scene.add(mesh); // change to point_geo to draw geometry with point
     mesh.position.y += 0.5;
 
+    //cast shadows for objects
+    mesh.castShadow = true;
+
+    mesh.name = 'mesh'; 
+
     //add plane
-    var plane = getPlane(6);
+    var plane = getPlane(12);
     plane.rotation.x = Math.PI / 2;
     plane.position.y -= 1;
     scene.add(plane);
 
     //pointLight
     var pointLight = getPointLight(1);
-    //var sphere = getSphere(0.02);
-    //scene.add(pointLight);
-    //pointLight.add(sphere);
+    var sphere = getSphere(0.02);
+    scene.add(pointLight);
+    pointLight.add(sphere);
 
     //spotlight
     var spotLight = getSpotLight(1);
@@ -63,20 +68,21 @@ function init() {
 
     //ambientLight
     var ambientLight = getAmbientLight(1);
-    scene.add(ambientLight);
+    //scene.add(ambientLight);
+
+    //original position of light
+    sphere.position.y = 3;
 
     //light helper
     var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
-    scene.add(helper);
-
-
+    //scene.add(helper);
 
     //GUI
     //pointLight
-    //gui.add(pointLight, 'intensity', 0, 10);
-    //gui.add(pointLight.position, 'y', 0, 5);
-    //gui.add(pointLight.position, 'x', -5, 5);
-    //gui.add(pointLight.position, 'z', -5, 5);
+    gui.add(pointLight, 'intensity', 0, 10);
+    gui.add(pointLight.position, 'y', 0, 5);
+    gui.add(pointLight.position, 'x', -5, 5);
+    gui.add(pointLight.position, 'z', -5, 5);
 
     //spotLight
     //gui.add(spotLight, 'intensity', 0, 10);
@@ -92,7 +98,7 @@ function init() {
     //gui.add(directionalLight.position, 'z', -5, 5);
 
     //ambientLight
-    gui.add(ambientLight, 'intensity', 0, 10);
+    //gui.add(ambientLight, 'intensity', 0, 10);
 
 
 
@@ -107,11 +113,54 @@ function init() {
         1,
         1000
     );
-    camera.position.x = 1;
-    camera.position.y = 2;
-    camera.position.z = 6;
 
-    camera.lookAt(new THREE.Vector3(-0.1, 1, 3));
+    
+    camera.position.x = 6;
+    camera.position.y = 4;
+    camera.position.z = 5;
+    camera.lookAt(new THREE.Vector3(0,0,0));
+
+    //var cameraYPosition = new THREE.Group();
+    //var cameraZPosition = new THREE.Group();
+    //var cameraXRotation = new THREE.Group();
+    //var cameraYRotation = new THREE.Group();
+    //var cameraZRotation = new THREE.Group();
+
+
+    //cameraYPosition.name = 'cameraYPosition';
+    //cameraZPosition.name = 'cameraZPosition';
+    //cameraXRotation.name = 'cameraXRotation';
+    //cameraYRotation.name = 'cameraYRotation';
+    //cameraZRotation.name = 'cameraZRotation';
+
+    //cameraZRotation.add(camera);
+    //cameraYPosition.add(cameraZRotation);
+    //cameraZPosition.add(cameraYPosition);
+    //cameraXRotation.add(cameraZPosition);
+    //cameraYRotation.add(cameraXRotation);
+
+    //scene.add(cameraYRotation);
+
+    //cameraXRotation.rotation.x = -Math.PI/2;
+    //cameraYPosition.position.y = 1;
+    //cameraZPosition.position.z = 100;
+
+
+    //gui.add(cameraZPosition.position, 'z', 0, 100);
+    //gui.add(cameraYRotation.rotation, 'y', -Math.PI , Math.PI);
+    //gui.add(cameraXRotation.rotation, 'x', -Math.PI , Math.PI);
+    //gui.add(cameraZRotation.rotation, 'z', -Math.PI , Math.PI);
+
+    const animate = function() {
+        requestAnimationFrame(animate);
+
+        mesh.rotation.x += 0.05;
+        mesh.rotation.y += 0.01;
+
+        mesh.translateY(0.02);
+        mesh.translateZ(0.02);
+    }
+    animate();
 
     var renderer = new THREE.WebGLRenderer(); //{ alpha: true });
     renderer.shadowMap.enabled = true;
@@ -124,6 +173,7 @@ function init() {
     update(renderer, scene, camera, controls);
     return scene;
 }
+
 
 function getBoxRotation(w, h, d) { //texture
     var textureLoader = new THREE.TextureLoader();
@@ -395,9 +445,14 @@ function getSpotLight(intensity) {
 function getDirectionalLight(intensity) {
     var light = new THREE.DirectionalLight(0xffffff, intensity);
     light.castShadow = true;
-    light.shadow.bias = 0.001;
-    light.shadow.mapSize.width = 2048;
-    light.shadow.mapSize.height = 2048;
+
+    light.shadow.camera.left = -40;
+    light.shadow.camera.bottom = -40;
+    light.shadow.camera.right = 40;
+    light.shadow.camera.top = 40;
+
+    light.shadow.mapSize.width = 4096;
+    light.shadow.mapSize.height = 4096;
     return light;
 }
 
@@ -437,12 +492,24 @@ function update(renderer, scene, camera, controls) {
     // temp_t.translateX(-0.75);
     // temp_t.translateZ(3);
 
+
     controls.update();
 
+    //var timeElapsed = clock.getElapsedTime();
+
+    //var cameraZPosition = scene.getObjectByName('cameraZPosition');
+    //cameraZPosition.position.z -= 0.25;
+
+    //var cameraZRotation = scene.getObjectByName('cameraZRotation');
+    //cameraZRotation.rotation.z = noise.simplex2(timeElapsed*1.5, timeElapsed*1.5) * 0.02;
+
     requestAnimationFrame(function() {
+
+
         update(renderer, scene, camera, controls);
     })
 
 }
+
 
 var scene = init();
